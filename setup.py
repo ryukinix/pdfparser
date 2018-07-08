@@ -14,6 +14,7 @@ except ImportError:
     print('You need to install cython first - sudo pip install cython', file=sys.stderr)
     sys.exit(1)
 
+import pdfparser
 
 # https://gist.github.com/smidm/ff4a2c079fed97a92e9518bd3fa4797c
 def pkgconfig(*packages, **kw):
@@ -82,16 +83,9 @@ else:
     poppler_ext = Extension('pdfparser.poppler', ['pdfparser/poppler.pyx'], language='c++', **poppler_config)
     package_data = {}
 
-# get version from package
-pkg_file= os.path.join(os.path.split(__file__)[0], 'pdfparser', '__init__.py')
-m=re.search(r"__version__\s*=\s*'([\d.]+)'", open(pkg_file).read())
-if not m:
-    print >>sys.stderr, 'Cannot find version of package'
-    sys.exit(1)
-version= m.group(1)
 
 setup(name='pdfparser',
-      version = version,
+      version=pdfparser.version(),
       classifiers=[
           # How mature is this project? Common values are
           #   3 - Alpha
